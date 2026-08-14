@@ -135,11 +135,12 @@ The following are all of the environment variables that are supported by the con
 
 | Variable      | Default Value | Description |
 | ----------- | ----------- | ----------- |
+| UPDATE_NOTICE | true | Sends update messages to the console before launch.
 | TMOD_SHUTDOWN_MESSAGE | Server is shutting down NOW! | The message which will be sent to the in-game chat upon container shutdown.
 | TMOD_AUTOSAVE_INTERVAL   | 10 | The autosave interval (in minutes) in which the World will be saved.
 | TMOD_AUTODOWNLOAD | N/A | A Comma Separated list of Workshop Mod IDs to download from Steam upon container startup.
 | TMOD_ENABLEDMODS | N/A | A Comma Separated list of Workshop Mod IDs to enable on the tModLoader server upon startup.
-| TMOD_USECONFIGFILE | No | If you wish to use a config file to specify server settings, set this variable to "Yes". Please note, this has been deprecated.
+| TMOD_USECONFIGFILE | No | If you wish to use a config file to specify server settings, set this variable to "Yes". Please note, this has been deprecated. A proper Terraria config file must be mapped to /root/terraria-server/serverconfig.txt.
 | TMOD_MOTD | A tModLoader server powered by Docker! | The Message of the Day which prints in the chat upon joining the server.
 | TMOD_PASS | docker | The password players must supply to join the server. Set this variable to "N/A" to disable requiring a password on join. (Not Recommended)
 | TMOD_MAXPLAYERS | 8 | The maximum number of players which can join the server at once.
@@ -150,6 +151,7 @@ The following are all of the environment variables that are supported by the con
 | TMOD_SECURE | 0 | Adds additional cheat protection.
 | TMOD_LANGUAGE | en-US | Sets the language for the server. Available options are: `en-US` (English), `de-DE` (German), `it-IT` (Italian), `fr-FR` (French), `es-ES` (Spanish), `ru-RU` (Russian), `zh-Hans` (Chinese), `pt-BR` (Portuguese), `pl-PL` (Polish).
 | TMOD_NPCSTREAM | 60 | Reduces enemy skipping, but increases bandwidth usage. The lower the number, the less skipping will happeb, but more data is sent. 0 is off.
+| TMOD_PRIORITY | 1 | Sets the thread priority of the server process. 0 = Realtime, 1 = High, 2 = AboveNormal, 3 = Normal, 4 = BelowNormal.
 | TMOD_UPNP | 0 | Automatically forwards ports with uPNP (untested, and may not work in all cases depending on network configuration)
 | TMOD_PORT | 7777 | Set the port for the tModLoader server to run on within the container.
 
