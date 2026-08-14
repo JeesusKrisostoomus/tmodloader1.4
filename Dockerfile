@@ -1,5 +1,5 @@
 # Builder is ubuntu-based because we need i386 libs
-FROM steamcmd/steamcmd:ubuntu-26 AS builder
+FROM ubuntu:26.04 AS builder
 
 # Install prerequisites to download steamcmd
 RUN apt-get update \
@@ -7,8 +7,8 @@ RUN apt-get update \
 WORKDIR /root/installer
 
 # Download and unpack installer
-# If some certificate expires then --insecure can be added
-RUN curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf -
+# Some cert is expired so --insecure is needed
+RUN curl -sfL --insecure https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf -
 
 FROM debian:bookworm-slim
 
@@ -64,14 +64,10 @@ RUN dpkg --add-architecture i386 \
 # Copy steamcmd and its required libs from the builder
 COPY --from=builder /root/installer/steamcmd.sh /usr/lib/games/steam/
 COPY --from=builder /root/installer/linux32/steamcmd /usr/lib/games/steam/linux32/steamcmd
-COPY --from=builder /usr/games/steamcmd /usr/bin/steamcmd
-COPY --from=builder /etc/ssl/certs /etc/ssl/certs
-COPY --from=builder /lib/i386-linux-gnu /lib/i386-linux-gnu
-COPY --from=builder /root/installer/linux32/libstdc++.so.6 /lib/i386-linux-gnu/
-RUN chown -R root:root /usr/bin/ /etc/ssl/certs /lib/ /usr/lib/
+RUN chown -R root:root /usr/bin/ /lib/ /usr/lib/
 
 RUN groupadd -g 10000 nonpriv && \
-    useradd -u 10000 -g nonpriv -d /home/nonpriv -m -s /usr/sbin/nologin nonpriv
+    useradd -u 10000 -g nonpriv -d /home/nonpriv -m -s /bin/bash nonpriv
 
 RUN apt-get update \
     && apt-get install -y wget unzip tmux bash libsdl2-2.0-0 libicu72
