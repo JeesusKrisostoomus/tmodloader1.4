@@ -1,5 +1,5 @@
 # Builder is ubuntu-based because we need i386 libs
-FROM steamcmd/steamcmd:ubuntu-22 as builder
+FROM steamcmd/steamcmd:ubuntu-26 AS builder
 
 # Install prerequisites to download steamcmd
 RUN apt-get update \
@@ -10,9 +10,7 @@ WORKDIR /root/installer
 # Insecure was added, apparently some Steam CDN certificate expired.
 RUN curl -sqL --insecure https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf -
 
-#FROM alpine:latest
-FROM ubuntu:latest
-
+FROM debian:bookworm-slim
 
 # The TMOD Version. Ensure that you follow the correct format. Version releases can be found at https://github.com/tModLoader/tModLoader/releases if you're lost.
 ARG TMOD_VERSION=v2026.06.3.6
@@ -105,18 +103,25 @@ ENV TMOD_JOURNEY_SPAWN_RATE="0"
 # Set this to "Yes" if you would rather use a config file instead of the above settings.
 # ENV TMOD_USECONFIGFILE="No"
 
+RUN dpkg --add-architecture i386 \
+    && apt-get update \
+    && apt-get install -y libc6:i386 libstdc++6:i386 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy steamcmd and its required libs from the builder
 COPY --from=builder /root/installer/steamcmd.sh /usr/lib/games/steam/
-COPY --from=builder /root/installer/linux32/steamcmd /usr/lib/games/steam/
+COPY --from=builder /root/installer/linux32/steamcmd /usr/lib/games/steam/linux32/steamcmd
 COPY --from=builder /usr/games/steamcmd /usr/bin/steamcmd
 COPY --from=builder /etc/ssl/certs /etc/ssl/certs
-COPY --from=builder /lib/i386-linux-gnu /lib/
-COPY --from=builder /root/installer/linux32/libstdc++.so.6 /lib/
+COPY --from=builder /lib/i386-linux-gnu /lib/i386-linux-gnu
+COPY --from=builder /root/installer/linux32/libstdc++.so.6 /lib/i386-linux-gnu/
 RUN chown -R root:root /usr/bin/ /etc/ssl/certs /lib/ /usr/lib/
 
+RUN groupadd -g 10000 nonpriv && \
+    useradd -u 10000 -g nonpriv -d /home/nonpriv -m -s /usr/sbin/nologin nonpriv
+
 RUN apt-get update \
-    && apt-get install -y wget unzip tmux bash libsdl2-2.0-0
+    && apt-get install -y wget unzip tmux bash libsdl2-2.0-0 libicu72
 
 RUN mkdir /data
 RUN mkdir /data/tModLoader
@@ -126,9 +131,11 @@ RUN mkdir /data/steamMods
 
 EXPOSE 7777
 
+RUN chown -R 10000:10000 /data
+
 WORKDIR /terraria-server
 
-RUN steamcmd /terraria-server +login anonymous +quit
+RUN /usr/lib/games/steam/steamcmd.sh /terraria-server +login anonymous +quit
 
 RUN wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip
 RUN unzip -o tModLoader.zip \
@@ -150,5 +157,7 @@ RUN chmod 755 ./LaunchUtils/DotNetInstall.sh \
 
 RUN ./LaunchUtils/DotNetInstall.sh
 
+RUN chown -R 10000:10000 /terraria-server
 
+USER nonpriv
 ENTRYPOINT ["./entrypoint.sh"]

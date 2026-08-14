@@ -1,7 +1,6 @@
-version: '3'
 services:
   tmodloader:
-    image: 'jacobsmile/tmodloader1.4:latest'
+    image: 'ghcr.io/JeesusKrisostoomus/tmodloader1.4:latest'
     container_name: 'tmodloader'
     ports:
       - "7777:7777"
