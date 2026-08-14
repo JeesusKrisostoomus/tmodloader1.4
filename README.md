@@ -184,7 +184,7 @@ Refer to the [Terraria Server Wiki](https://terraria.fandom.com/wiki/Server) for
 
 ```bash
 # Pull the image
-docker pull jacobsmile/tmodloader1.4:latest
+docker pull JeesusKrisostoomus/tmodloader1.4:latest
 
 # Execute the container
 docker run -p 7777:7777 --name tmodloader --rm \
