@@ -1,4 +1,5 @@
 # tModLoader Powered By Docker
+**Doesnt seem ready yet. Occasionally mods seem broken.**
 [![Discord](https://img.shields.io/discord/1132368789518950521?logo=discord&label=Discord%20Server&style=for-the-badge)](https://discord.gg/dHnVYYGed7)
 
 ![Auto-Update Badge](https://img.shields.io/github/actions/workflow/status/jacobsmile/tmodloader1.4/tmodloader-check.yml?logo=github&label=tModLoader%20Auto-Updater&style=for-the-badge)
