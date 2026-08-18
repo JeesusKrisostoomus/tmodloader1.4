@@ -1,5 +1,5 @@
 # tModLoader Powered By Docker
-**Doesnt seem ready yet. Occasionally mods seem broken.**
+**If you do find mods then please open an issue**
 [![Discord](https://img.shields.io/discord/1132368789518950521?logo=discord&label=Discord%20Server&style=for-the-badge)](https://discord.gg/dHnVYYGed7)
 
 ![Auto-Update Badge](https://img.shields.io/github/actions/workflow/status/jacobsmile/tmodloader1.4/tmodloader-check.yml?logo=github&label=tModLoader%20Auto-Updater&style=for-the-badge)
@@ -16,10 +16,10 @@
 
 ---
 
-[View on Github](https://github.com/JACOBSMILE/tmodloader1.4) |
-[View on Dockerhub](https://registry.hub.docker.com/r/jacobsmile/tmodloader1.4)
+[View on Github](https://github.com/JeesusKrisostoomus/tmodloader1.4) |
+[View on GHCR](https://github.com/JeesusKrisostoomus/tmodloader1.4/pkgs/container/tmodloader1.4)
 
-This Docker Image is designed to allow for easy configuration and setup of a modded Terraria server powered by tModLoader.
+This docker image so far only has changes that i have wanted for my own setup.
 
 ## Features
 - Easy Downloading of tModLoader mods by Workshop ID
@@ -40,29 +40,16 @@ This Docker Image is designed to allow for easy configuration and setup of a mod
 - [rfvgyhn](https://github.com/rfvgyhn/tmodloader-docker)'s Docker implementation of tModLoader for Terraria 1.3
 - [guillheu](https://github.com/guillheu/tmodloader-docker)'s Docker implementation of tModLoader for Terraria 1.4
 - [FlorentLM](https://github.com/FlorentLM/tmodloader1.4) For helping clean up the Dockerfile & resolving some security concerns.
-
-## Check out all of my Terraria Images!
-
-1.4 Vanilla Terraria: [Github](https://github.com/JACOBSMILE/terraria1.4) | [Dockerhub](https://hub.docker.com/r/jacobsmile/terraria1.4)
-
-1.4 tModLoader: [Github](https://github.com/JACOBSMILE/tmodloader1.4) | [Dockerhub](https://hub.docker.com/r/jacobsmile/tmodloader1.4)
+- [JACOBSMILE](https://github.com/JACOBSMILE/tmodloader1.4) For the base implementation
 
 # Repository Automation & Daily Automated Builds
 The Github repository has been configured with an automated workflow to check for tModLoader updates daily and update the latest image and Dockerfile with the new tModLoader version. 
 
-Additionally, the Dockerhub registry will maintain all previous versions which are processed through this automated workflow. You can access these previous versions by pulling a repository with the tModLoader version string as the tag.
-
 ## To Pull the Latest tModLoader Image
 
 ```bash
-# ":latest" will pull the most recent tModLoader version from https://github.com/tModLoader/tModLoader/releases/latest
-docker pull jacobsmile/tmodloader1.4:latest
-```
-
-## To Pull a Specific tModLoader Image Version
-```bash
-# Replace 'v2022.09.47.13' with the version string found at https://github.com/tModLoader/tModLoader/releases
-docker pull jacobsmile/tmodloader1.4:v2022.09.47.13
+# ":master" will pull the most recent tModLoader version from https://github.com/tModLoader/tModLoader/releases/latest
+docker pull ghcr.io/jeesuskrisostoomus/tmodloader1.4:master
 ```
 
 # Container Preparation
@@ -185,7 +172,7 @@ Refer to the [Terraria Server Wiki](https://terraria.fandom.com/wiki/Server) for
 
 ```bash
 # Pull the image
-docker pull JeesusKrisostoomus/tmodloader1.4:latest
+docker pull ghcr.io/jeesuskrisostoomus/tmodloader1.4:master
 
 # Execute the container
 docker run -p 7777:7777 --name tmodloader --rm \
@@ -201,7 +188,7 @@ docker run -p 7777:7777 --name tmodloader --rm \
   -e TMOD_WORLDSIZE='2' \
   -e TMOD_WORLDSEED='not the bees!' \
   -e TMOD_DIFFICULTY='3' \
-  jacobsmile/tmodloader1.4
+  ghcr.io/jeesuskrisostoomus/tmodloader1.4:master
 ```
 
 ## Docker Compose
