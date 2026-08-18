@@ -70,7 +70,7 @@ RUN groupadd -g 10000 nonpriv && \
     useradd -u 10000 -g nonpriv -d /home/nonpriv -m -s /bin/bash nonpriv
 
 RUN apt-get update \
-    && apt-get install -y wget unzip tmux bash libsdl2-2.0-0 libicu72
+    && apt-get install -y wget unzip tmux bash libsdl2-2.0-0 libicu72 procps
 
 RUN mkdir /data
 RUN mkdir /data/tModLoader
